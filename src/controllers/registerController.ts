@@ -65,6 +65,7 @@ const addNewUser: RequestHandler = async (req, res) => {
 
     const dbResponse = await client.query(query, values);
     console.log(`New user ${email} created`);
+    client.release();
     return res.status(201).json({ message: 'User created' });
   } catch (error) {
     console.log(error);
