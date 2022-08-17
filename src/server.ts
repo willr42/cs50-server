@@ -46,7 +46,7 @@ app.use(session(sessionOptions));
 app.use(express.json());
 
 app.use('/register', register);
-// app.use('/login', login);
+app.use('/login', login);
 // authenticate
 // start session
 // TODO: log out a user
