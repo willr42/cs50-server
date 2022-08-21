@@ -20,7 +20,7 @@ const addNewUser: RequestHandler = async (req, res) => {
   const { email, password, name }: registerBody = req.body;
   if (!email || !password || !name) {
     // no password
-    return res.status(400).json({ error: 'Username, password or name empty.' });
+    return res.status(400).json({ error: 'Email, password or name empty.' });
   }
 
   const client = await pool.connect();
