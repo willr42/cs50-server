@@ -1,13 +1,15 @@
 import express from 'express';
 import session from 'express-session';
+import cors from 'cors';
 
 import register from './routes/register';
 import login from './routes/login';
+import api from './routes/api';
 
 const FileStore = require('session-file-store')(session);
 // initialise express app
 const app = express();
-
+app.use(cors());
 // Configure environment vars
 
 // Set up sessions
@@ -37,7 +39,7 @@ if (process.env.NODE_ENV === 'production') {
   sessionOptions.store = new FileStore(fileStoreOptions);
   sessionOptions.resave = false;
   sessionOptions.saveUninitialized = false;
-  sessionOptions.cookie = { secure: true };
+  sessionOptions.cookie = { secure: true, maxAge: oneDay };
 }
 
 app.use(session(sessionOptions));
@@ -47,6 +49,7 @@ app.use(express.json());
 
 app.use('/register', register);
 app.use('/login', login);
+app.use('/api', api);
 // authenticate
 // start session
 // TODO: log out a user
