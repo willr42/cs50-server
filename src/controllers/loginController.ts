@@ -16,6 +16,7 @@ declare module 'express-session' {
   interface SessionData {
     loggedIn: boolean;
     username: string;
+    userId: number;
   }
 }
 
@@ -31,11 +32,16 @@ const login: RequestHandler = async (req, res) => {
 
   try {
     const values = [email];
-    const query = 'SELECT email, password FROM users WHERE email = $1';
+    const query = 'SELECT email, password, user_id FROM users WHERE email = $1';
 
     const dbResponse = await client.query(query, values);
 
-    const matchingUser = dbResponse.rows.find((row) => row.email === email);
+    let user_id;
+
+    const matchingUser = dbResponse.rows.find((row) => {
+      user_id = row.user_id;
+      return row.email === email;
+    });
 
     if (!matchingUser) {
       return res.status(401).json({ error: 'No user exists.' });
@@ -49,6 +55,8 @@ const login: RequestHandler = async (req, res) => {
       // initialise session
       req.session.loggedIn = true;
       req.session.username = email;
+      req.session.userId = user_id;
+
       console.log(req.session);
       return res.status(200).json({ message: 'successfully logged in' });
     }
