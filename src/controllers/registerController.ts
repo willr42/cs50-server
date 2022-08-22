@@ -8,12 +8,6 @@ type registerBody = {
   password: string | undefined;
 };
 
-type UserRecord = {
-  userID: string;
-  email: string;
-  password: string;
-};
-
 // Code inspired by Dave Gray
 
 const addNewUser: RequestHandler = async (req, res) => {
