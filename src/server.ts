@@ -39,7 +39,7 @@ if (process.env.NODE_ENV === 'production') {
   sessionOptions.store = new FileStore(fileStoreOptions);
   sessionOptions.resave = false;
   sessionOptions.saveUninitialized = false;
-  sessionOptions.cookie = { secure: true, maxAge: oneDay };
+  sessionOptions.cookie = { maxAge: oneDay };
 }
 
 app.use(session(sessionOptions));
