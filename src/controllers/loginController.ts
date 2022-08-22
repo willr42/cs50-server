@@ -22,6 +22,11 @@ declare module 'express-session' {
 
 const login: RequestHandler = async (req, res) => {
   const { email, password }: loginBody = req.body;
+  if (req.session.loggedIn) {
+    console.log('already logged in');
+    return res.status(200).json({ message: 'already logged in' });
+  }
+
   if (!email || !password) {
     // no username or password
     return res.status(400).json({ error: 'Username or password empty.' });
