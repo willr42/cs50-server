@@ -15,7 +15,7 @@ const FileStore = require('session-file-store')(session);
 const app = express();
 
 const corsOptions: cors.CorsOptions = {
-  origin: '*',
+  origin: process.env.FRONTEND_URL,
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
   preflightContinue: false,
   optionsSuccessStatus: 204,
