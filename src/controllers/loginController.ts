@@ -24,7 +24,9 @@ const login: RequestHandler = async (req, res) => {
   const { email, password }: loginBody = req.body;
   if (req.session.loggedIn) {
     console.log('already logged in');
-    return res.status(200).json({ message: 'already logged in' });
+    return res
+      .status(200)
+      .json({ message: 'already logged in', isLoggedIn: true });
   }
 
   if (!email || !password) {
@@ -63,7 +65,9 @@ const login: RequestHandler = async (req, res) => {
       req.session.userId = user_id;
 
       console.log(req.session);
-      return res.status(200).json({ message: 'successfully logged in' });
+      return res
+        .status(200)
+        .json({ message: 'successfully logged in', isLoggedIn: true });
     }
     client.release();
     return res.status(500).json({ message: 'something went wrong' });
