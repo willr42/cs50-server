@@ -7,11 +7,6 @@ type loginBody = {
   password: string | undefined;
 };
 
-type UserRecord = {
-  username: string;
-  password: string;
-};
-
 declare module 'express-session' {
   interface SessionData {
     loggedIn: boolean;
@@ -64,7 +59,6 @@ const login: RequestHandler = async (req, res) => {
       req.session.username = email;
       req.session.userId = user_id;
 
-      console.log(req.session);
       return res
         .status(200)
         .json({ message: 'successfully logged in', isLoggedIn: true });
