@@ -13,8 +13,16 @@ import api from './routes/api';
 const FileStore = require('session-file-store')(session);
 // initialise express app
 const app = express();
-app.use(cors());
-// Configure environment vars
+
+const corsOptions: cors.CorsOptions = {
+  origin: '*',
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  preflightContinue: false,
+  optionsSuccessStatus: 204,
+  credentials: true,
+};
+
+app.use(cors(corsOptions));
 
 // Set up sessions
 const fileStoreOptions = {};
