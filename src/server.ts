@@ -1,3 +1,7 @@
+// Env vars, used in other imports so needs to be defined ASAP
+import * as dotenv from 'dotenv';
+dotenv.config();
+
 import express from 'express';
 import session from 'express-session';
 import cors from 'cors';

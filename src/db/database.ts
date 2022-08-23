@@ -1,11 +1,5 @@
 import pg from 'pg';
 import stringToInt from '../util/stringToInt';
-import dotenv from 'dotenv';
-
-// configure dotenv
-dotenv.config({ path: '/home/will/development/cs50-server/build/.env' });
-
-// cast port to number type
 
 const databaseEnv = {
   PGUSER: process.env.PGUSER,
