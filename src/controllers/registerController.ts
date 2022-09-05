@@ -4,15 +4,15 @@ import pool from '../db/database';
 
 type registerBody = {
   email: string | undefined;
-  name: string | undefined;
+  fullName: string | undefined;
   password: string | undefined;
 };
 
 // Code inspired by Dave Gray
 
 const addNewUser: RequestHandler = async (req, res) => {
-  const { email, password, name }: registerBody = req.body;
-  if (!email || !password || !name) {
+  const { email, password, fullName }: registerBody = req.body;
+  if (!email || !password || !fullName) {
     // no password
     return res.status(400).json({ error: 'Email, password or name empty.' });
   }
@@ -40,10 +40,12 @@ const addNewUser: RequestHandler = async (req, res) => {
     // hash password
     const hashedPass = await bcrypt.hash(password, 10);
 
+    // TODO: add email validation!
+
     // declare user
     const newUser = {
       email: email,
-      name: name,
+      fullName: fullName,
       password: hashedPass,
       createdAt: new Date(),
     };
@@ -51,7 +53,7 @@ const addNewUser: RequestHandler = async (req, res) => {
     const values = [
       newUser.email,
       newUser.password,
-      newUser.name,
+      newUser.fullName,
       newUser.createdAt,
     ];
     const query =
