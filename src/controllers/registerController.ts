@@ -1,5 +1,6 @@
 import { RequestHandler } from 'express';
 import bcrypt from 'bcrypt';
+import { validate } from 'email-validator';
 import pool from '../db/database';
 
 type registerBody = {
@@ -40,7 +41,14 @@ const addNewUser: RequestHandler = async (req, res) => {
     // hash password
     const hashedPass = await bcrypt.hash(password, 10);
 
-    // TODO: add email validation!
+    // email validation
+    const validEmail = validate(email);
+
+    // email invalid
+    if (!validEmail) {
+      client.release();
+      return res.status(400).json({ error: 'Email invalid' });
+    }
 
     // declare user
     const newUser = {
