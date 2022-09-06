@@ -15,7 +15,9 @@ const addNewUser: RequestHandler = async (req, res) => {
   const { email, password, fullName }: registerBody = req.body;
   if (!email || !password || !fullName) {
     // no password
-    return res.status(400).json({ error: 'Email, password or name empty.' });
+    return res
+      .status(400)
+      .json({ error: 'Email, password or fullName empty.' });
   }
 
   const client = await pool.connect();
@@ -30,9 +32,11 @@ const addNewUser: RequestHandler = async (req, res) => {
     const duplicate = dbResponse.rows.find((row) => row.email === email);
     if (duplicate) {
       console.log(`Duplicate email found: ${email}`);
+      client.release();
       return res.status(409).json({ error: 'User already exists.' });
     }
   } catch (error) {
+    client.release();
     console.log(error);
   }
 
@@ -73,6 +77,7 @@ const addNewUser: RequestHandler = async (req, res) => {
     return res.status(201).json({ message: 'User created' });
   } catch (error) {
     console.log(error);
+    client.release();
   }
 };
 
