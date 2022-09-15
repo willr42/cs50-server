@@ -1,6 +1,15 @@
 import { RequestHandler } from 'express';
 import pool from '../db/database';
 
+interface RecipeContents {
+  name: string;
+  source: string;
+  time: number;
+  serves: string;
+  ingredients: Array<string>;
+  method: Array<string>;
+}
+
 const getRecipes: RequestHandler = async (req, res) => {
   // is there a session?
   if (!req.session) {
