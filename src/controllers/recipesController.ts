@@ -17,15 +17,16 @@ const getRecipes: RequestHandler = async (req, res) => {
   }
 
   // Retrieve recipes from DB
-  const user_id = req.session.userId;
-  const client = await pool.connect();
+  const userId = req.session.userId;
 
   try {
-    const values = [user_id];
+    const client = await pool.connect();
+    const values = [userId];
     const query = 'SELECT recipe_id, contents FROM recipes WHERE user_id = $1';
 
     const dbResponse = await client.query(query, values);
 
+    client.release();
     return res.status(200).json(dbResponse.rows);
   } catch (error) {
     console.log(error);
